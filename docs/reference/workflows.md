@@ -1,6 +1,6 @@
 # Workflow Reference
 
-<a href="#english">English</a> · <a href="#korean">한국어</a>
+[![English](https://img.shields.io/badge/lang-English-blue)](#english) [![한국어](https://img.shields.io/badge/lang-%ED%95%9C%EA%B5%AD%EC%96%B4-red)](#한국어)
 
 <a id="english"></a>
 ## English
@@ -23,6 +23,11 @@ language badges, `# English` and `# 한국어` blocks, and matching content/orde
 The README guide defines required and conditional sections. The changelog guide
 uses Keep a Changelog categories, Unreleased, preserved releases, and shared
 reference links backed by actual or explicitly planned refs.
+
+All bilingual public documents use the same Shields language navigation,
+including indexes, architecture, onboarding, contribution guidance, ADRs,
+runbooks, and implementation references. Preserve their heading levels and
+legacy anchors when replacing earlier text navigation.
 
 Sync maps source changes to existing sections, reconciles both languages, and
 deduplicates Unreleased entries by meaning. It preserves custom notes, existing
@@ -76,6 +81,10 @@ Repeated synchronization with no new evidence should leave documents unchanged.
 조건부 섹션을 정의하고, 변경 이력 지침은 Keep a Changelog 카테고리,
 Unreleased, 과거 릴리스 보존, 실제 또는 명시적으로 계획된 ref의 공통
 참조 링크를 사용합니다.
+
+문서 목차·아키텍처·온보딩·기여 안내·ADR·런북·구현 참조를 포함한 모든
+이중 언어 공개 문서는 같은 Shields 언어 전환 배지를 사용합니다. 기존
+텍스트 링크를 교체할 때 헤딩 수준과 이전 앵커를 보존합니다.
 
 동기화는 소스 변경을 기존 섹션에 대응시키고 양 언어를 함께 갱신하며,
 Unreleased 항목을 의미 기준으로 중복 제거합니다. 사용자 메모, 기존 단일

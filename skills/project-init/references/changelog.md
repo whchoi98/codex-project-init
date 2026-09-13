@@ -1,5 +1,7 @@
 # CHANGELOG authoring and synchronization
 
+[![English](https://img.shields.io/badge/lang-English-blue)](#english) [![한국어](https://img.shields.io/badge/lang-%ED%95%9C%EA%B5%AD%EC%96%B4-red)](#한국어)
+
 ## English
 
 Use this contract for initialization, changelog requests, affected `sync-docs`,

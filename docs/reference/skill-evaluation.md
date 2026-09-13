@@ -1,6 +1,6 @@
 # Skill behavior trials
 
-<a href="#english">English</a> · <a href="#korean">한국어</a>
+[![English](https://img.shields.io/badge/lang-English-blue)](#english) [![한국어](https://img.shields.io/badge/lang-%ED%95%9C%EA%B5%AD%EC%96%B4-red)](#한국어)
 
 <a id="english"></a>
 ## English
@@ -65,7 +65,9 @@ and custom bilingual fixtures retain their established headings, notes, and
 layout; compare their content roles and paired facts without forcing conversion.
 
 - New README files have the license, build, version, and language badge row;
-  new changelogs have language badges. Images use `img.shields.io`, and language
+  all other new bilingual public documents have the same language badge row,
+  including CONTRIBUTING, indexes, architecture, onboarding, ADRs, runbooks,
+  and references. Images use `img.shields.io`, and language
   links target `#english` and `#한국어`. Unknown license/build information uses
   the guide's neutral badges. Check versions against `pyproject.toml`; a planned
   release does not change that version. Existing Python badges must agree with
@@ -140,6 +142,12 @@ bullets, language blocks, badge definitions, or reordered sections. The snapshot
 command only reads files and local Git metadata; store its output outside the
 fixture. It also works for the original cases. For README-only, repeat the
 request; for initialization, follow with a sync request and review any edits.
+
+For changes to shared document navigation, also use a fresh context to add a
+runbook for the fixture's actual CSV command. Check the runbook and its index
+link, the shared badge row and language destinations, and unchanged existing
+body content/legacy anchors. A repeated sync must not duplicate the badge row.
+An existing single-language document must not gain a link to a missing translation.
 
 ### Inspect release preparation and metadata
 
@@ -292,8 +300,10 @@ python3 -B tests/skill_trials.py
 기존 한국어 전용·사용자 정의 이중 언어 시나리오는 헤딩·메모·구조를 유지하며,
 형식을 강제로 바꾸지 않고 역할과 양 언어의 사실을 비교합니다.
 
-- 새 README는 라이선스·빌드·버전·언어 배지 한 줄을, 새 변경 이력은 언어
-  배지를 사용합니다. 이미지 주소는 `img.shields.io`, 언어 링크는
+- 새 README는 라이선스·빌드·버전·언어 배지 한 줄을 사용합니다.
+  기여 안내·목차·아키텍처·온보딩·ADR·런북·참조 문서를 포함한 다른 모든
+  새 이중 언어 공개 문서는 같은 언어 배지 한 줄을 사용합니다.
+  이미지 주소는 `img.shields.io`, 언어 링크는
   `#english`·`#한국어`를 사용합니다. 라이선스·빌드 정보가 없으면 지침의
   중립 배지를 사용합니다. 버전은 `pyproject.toml`과 대조하며 릴리스 계획만으로
   바뀌지 않습니다. 기존 Python 배지는 `requires-python`과 일치해야 합니다.
@@ -367,6 +377,11 @@ python3 -B tests/skill_trials.py --snapshot "$trial_root/bilingual-sync" \
 로컬 Git 메타데이터를 읽기만 하며, 출력은 시나리오 디렉터리 밖에 저장합니다.
 기존 시나리오에도 사용할 수 있습니다. README만 수정한 경우 같은 요청을
 반복하고, 초기화한 경우 동기화를 후속 요청해 변경 내용을 검토합니다.
+
+공통 언어 전환 표시를 변경한 경우 새 문맥에서 실제 CSV 실행 명령의 런북도
+추가합니다. 런북과 목차 링크, 공통 배지와 언어별 이동 대상, 기존 본문과
+이전 앵커 보존을 확인합니다. 반복 동기화로 배지 행이 늘어나면 안 되며,
+기존 단일 언어 문서에는 없는 번역으로 이동하는 링크를 추가하지 않습니다.
 
 ### 릴리스 준비와 메타데이터 확인
 

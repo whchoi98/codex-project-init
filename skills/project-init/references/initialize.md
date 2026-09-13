@@ -19,6 +19,8 @@ project guidance, not a requirement to generate every directory.
 When README or CHANGELOG is in scope, read its [README](readme.md) or
 [CHANGELOG](changelog.md) guide before authoring it. Use `assets/readme.md` and
 `assets/changelog.md` for missing files or an explicitly requested format adoption.
+Apply the shared Shields language navigation to every new bilingual public
+document, including documentation indexes and supporting guides.
 
 - **AGENTS.md:** purpose, entrypoints, actual development/validation commands,
   non-obvious invariants, and when to update docs/changelog. Keep it concise.
@@ -65,6 +67,8 @@ Inspect changed files and current documents. Update affected descriptions,
 commands, links, versions, diagrams, and indexes; keep custom content and
 historical records. Reconcile both languages when a doc is already bilingual.
 Do not claim freshness only from modification time or a file-count score.
+Keep the shared language badge row consistent across affected bilingual
+documents, preserving existing headings and legacy anchor destinations.
 
 1. Identify the relevant source change and map it to existing document sections.
    Read the README/changelog guides for affected files and select the structure

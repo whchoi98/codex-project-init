@@ -2,6 +2,9 @@
 
 Read the target's existing naming conventions and document index first. Use the
 matching template in `assets/` only as a starting point.
+Read [document conventions](documents.md) for language and badge formatting.
+New bilingual ADRs, runbooks, and references use the same Shields language
+navigation as the rest of the project's public documentation.
 
 ## add-module PATH
 

@@ -26,6 +26,8 @@ comparison links.
 
 ### Changed
 
+- Use Shields language badges consistently across public documentation and
+  document templates while preserving existing headings and anchors.
 - Focus the skill on the requested documentation operation, preserve repeat-run
   stability, and separate semantic review from structural checks.
 - Build and install from the same explicit payload and validate complete skill
@@ -77,6 +79,8 @@ Git 릴리스 태그가 없어 버전 헤딩에는 릴리스·비교 링크를 �
 
 ### Changed
 
+- 기존 헤딩과 앵커를 보존하면서 공개 문서·문서 템플릿의 언어 전환 표시를
+  Shields 배지로 통일.
 - 요청한 문서 작업에 집중하도록 스킬을 정리하고 반복 실행의 안정성을 유지하며
   내용 검토와 구조 검사를 분리.
 - 동일한 명시적 배포 대상으로 빌드·설치하고 전체 스킬 리소스를 검증한 뒤 전달.

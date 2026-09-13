@@ -63,6 +63,8 @@ directories merely to populate a template.
 - New public documents default to English followed by Korean. Preserve an existing document's language/layout unless the
   user requests conversion. Code, examples, and technical claims must agree
   across language versions.
+- Use the shared Shields language badges throughout bilingual public documents,
+  including `docs/` pages, ADRs, runbooks, and implementation references.
 - Generate only applicable documents. A CLI does not need a fabricated REST API,
   database, frontend, security layer, or deployment platform.
 

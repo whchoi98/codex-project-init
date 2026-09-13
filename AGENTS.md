@@ -10,6 +10,8 @@ This repository packages one Codex skill and a read-only repository auditor.
 - Preserve user content and historical changelog entries in consuming projects.
 - Use the dedicated README/CHANGELOG guides and templates for new documents;
   synchronize existing sections and both languages without rewriting history.
+- Use Shields language badges throughout bilingual public docs and templates;
+  preserve existing heading structure and legacy anchors.
 - Keep project preparation separate from committing, pushing, and installing hooks.
   Existing user authorization still applies.
 - Use Python's standard library; support Python 3.9 and later.

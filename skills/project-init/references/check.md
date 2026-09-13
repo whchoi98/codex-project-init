@@ -69,6 +69,9 @@ configuration values, and version/category entries across languages. Check badge
 evidence and link definitions; preserve custom content and released blocks.
 These are semantic reviews, not checks the helper claims to automate. A custom
 layout is not an error merely because it differs from a new-file template.
+For authored bilingual public documents, verify the shared Shields navigation
+row, its actual language destinations, and preservation of legacy anchors.
+The helper's file-link checks do not validate heading anchors.
 
 For each issue, name the document/location, the conflicting or missing source
 evidence, and a concrete correction. Separate a confirmed mismatch from an

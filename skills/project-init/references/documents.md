@@ -6,15 +6,26 @@ existing document's structure, then the defaults below.
 
 ## Language and style
 
-New public documents use English first, then Korean. README and CHANGELOG use
-the heading anchors and Shields language badges in their dedicated guides.
-Other documents may retain the project's existing ASCII navigation:
+New public documents use English first, then Korean. Use one Shields language
+badge row below the title throughout bilingual public documentation: README,
+CHANGELOG, CONTRIBUTING, documentation indexes, architecture, onboarding, ADRs,
+runbooks, and implementation references. README adds its evidenced project
+badges on the same row; other documents need only the language badges.
 
-```html
-<a href="#english">English</a> · <a href="#korean">한국어</a>
-<a id="english"></a>
-<a id="korean"></a>
+```markdown
+[![English](https://img.shields.io/badge/lang-English-blue)](#english) [![한국어](https://img.shields.io/badge/lang-%ED%95%9C%EA%B5%AD%EC%96%B4-red)](#한국어)
 ```
+
+Keep the document's heading levels. `English` and `한국어` headings provide the
+default destinations above. Preserve existing legacy anchors such as `#korean`
+for incoming links; for custom language headings, link to their actual anchors.
+When aligning an existing document with this convention, replace its plain-text
+language navigation without rewriting its body. During sync, maintain one row
+and verify its targets rather than appending another row.
+
+Do not add navigation to a translation that is absent. If badge alignment is
+requested for an existing single-language document, use a non-linked language
+badge and preserve its language, layout, and historical content.
 
 Keep the same facts, commands, diagrams, table data, and section order in both
 languages. Translate prose and explanatory comments; keep executable tokens,
