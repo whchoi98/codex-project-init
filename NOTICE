@@ -1,0 +1,7 @@
+Codex Project Init adapts workflow concepts and document conventions from
+whchoi98/project-init, maintained source version 2.4.0.
+Original project: https://github.com/whchoi98/project-init
+The original MIT license notice is preserved in LICENSE.
+
+The Codex skill instructions, portable auditor, packaging, and installation
+workflow in this directory are a separate Codex implementation.

@@ -1,0 +1,24 @@
+{
+  "name": "codex-project-init",
+  "version": "0.1.0",
+  "description": "Prepare repository documentation from code and inspect documentation and staged changes with a read-only auditor.",
+  "author": {
+    "name": "whchoi98"
+  },
+  "license": "MIT",
+  "keywords": ["codex", "project-init", "documentation", "git"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex Project Init",
+    "shortDescription": "실제 코드로 문서를 정리하고 커밋 준비 상태 점검",
+    "longDescription": "프로젝트의 의도와 구현을 읽어 AGENTS.md, README, CHANGELOG와 필요한 문서를 유지합니다. 읽기 전용 검사로 문서 링크, 스캔 범위, 스테이징 변경을 확인합니다.",
+    "developerName": "whchoi98",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": [
+      "Use $project-init to initialize docs for this project.",
+      "Use $project-init to sync docs with this code.",
+      "Use $project-init to check docs and staged changes."
+    ]
+  }
+}
