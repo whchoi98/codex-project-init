@@ -10,6 +10,10 @@ library. Choose a [skill or plugin installation](../README.md#installation).
 The native GitHub plugin route uses Codex's plugin CLI. The local personal
 marketplace route also requires bundled plugin-creator helpers.
 
+The following commands establish an initial development baseline. For later
+changes, use [the contribution scope table](../CONTRIBUTING.md) and reuse valid
+results; do not repeat the entire baseline for every commit.
+
 ```bash
 make test
 make check
@@ -36,6 +40,10 @@ A source export without Git metadata receives a warning from ordinary `check`;
 라이브러리를 사용합니다. [스킬 또는 플러그인 설치](../README.md#설치-방법)를
 선택합니다. GitHub 플러그인 방식은 Codex 플러그인 CLI를 사용하며 로컬 개인
 마켓플레이스 방식에는 번들 plugin-creator 도우미도 필요합니다.
+
+아래 명령은 처음 개발 환경을 확인할 때 사용하는 기준 검증입니다. 이후 변경은
+[기여 지침의 범위 표](../CONTRIBUTING.md)에 따라 검사하고 유효한 결과를
+재사용하며 매 커밋마다 전체 기준 검증을 반복하지 않습니다.
 
 ```bash
 make test

@@ -30,6 +30,8 @@ comparison links.
 
 ### Changed
 
+- Scope documentation verification to affected work and reuse valid test/review
+  evidence instead of starting duplicate pipelines for ordinary commits or pushes.
 - Use Shields language badges consistently across public documentation and
   document templates while preserving existing headings and anchors.
 - Focus the skill on the requested documentation operation, preserve repeat-run
@@ -86,6 +88,8 @@ Git 릴리스 태그가 없어 버전 헤딩에는 릴리스·비교 링크를 �
 
 ### Changed
 
+- 영향받는 문서 작업으로 검증 범위를 제한하고 유효한 테스트·리뷰 근거를
+  재사용해 일반 커밋·푸시의 중복 검증 절차 축소.
 - 기존 헤딩과 앵커를 보존하면서 공개 문서·문서 템플릿의 언어 전환 표시를
   Shields 배지로 통일.
 - 요청한 문서 작업에 집중하도록 스킬을 정리하고 반복 실행의 안정성을 유지하며

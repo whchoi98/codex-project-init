@@ -175,6 +175,13 @@ Output:
 1 observed
 ```
 
+Project Init keeps documentation checks separate from implementation tests and
+code review. It reuses applicable results from the primary workflow and avoids
+another full test/review cycle for ordinary document edits or unchanged pushes.
+See the [verification policy](skills/project-init/references/verification.md).
+Plain commit/push requests do not select this skill automatically; use
+`$project-init prepare-commit` when documentation preparation is wanted.
+
 Document preparation does not itself request commits, pushes, remote creation,
 deployments, or hook installation. Existing user authorization still applies.
 Claude-specific integrations require a [compatibility assessment](skills/project-init/references/migration.md).
@@ -246,7 +253,10 @@ and the [docs index](docs/README.md) for component details and development setup
 
 ## Testing
 
-Run checks from the repository root. No CI workflow is configured.
+Select checks using [CONTRIBUTING.md](CONTRIBUTING.md) and reuse results for
+unchanged inputs. The commands below are available checks, not a requirement to
+run every command on each commit. Run them from the repository root.
+No CI workflow is configured.
 
 ```bash
 # Run the complete helper suite and source/document checks.
@@ -260,8 +270,8 @@ Auditor tests use real temporary Git repositories and filesystem boundaries.
 Installation tests use temporary homes and controlled CLI behavior; packaging
 tests extract both artifacts and check their content.
 
-With Codex and its plugin-creator helpers installed, enable optional integration
-trials:
+For affected installation/CLI changes or required release coverage, enable
+optional integration trials with Codex and its plugin-creator helpers:
 
 ```bash
 PROJECT_INIT_REAL_INTEGRATION=1 make test
@@ -308,7 +318,7 @@ oversized content; it does not follow file links outside the target.
 
 The auditor never executes project scripts, including Git clean/process filters.
 The skill's `check` mode also leaves project tests unexecuted. Authoring and
-commit preparation run relevant checks within the user's requested scope.
+commit preparation use scoped verification and reuse valid implementation results.
 Structural checks do not replace semantic review or application tests; staged
 secret indicators are limited. Heading anchors and external websites require
 separate review.
@@ -322,8 +332,9 @@ established branch and remote workflow:
    your fork.
 2. Create a branch, for example `git switch -c docs/refresh-project-guides`.
 3. Preserve custom content and release history, update both public language
-   sections and `CHANGELOG.md`, and run `make test`, `make check`, and
-   `make package`. Stage only intended paths, review the exact staged diff, and commit
+   sections and `CHANGELOG.md`, and perform the checks required by the change,
+   reusing valid results. Rebuild packages after the final edit.
+   Stage only intended paths, review the exact staged diff, and commit
    with a descriptive message such as
    `git commit -m "docs: refresh bilingual project guides"`.
 4. Confirm `origin` points to your fork, then push the branch with
@@ -517,6 +528,13 @@ python3 skills/project-init/scripts/project_audit.py inspect . | \
 1 observed
 ```
 
+Project Init은 문서 검사와 구현 테스트·코드 리뷰의 역할을 구분합니다.
+주 작업의 유효한 결과를 재사용하며 일반 문서 수정이나 입력이 그대로인 푸시에
+전체 테스트·리뷰를 추가하지 않습니다.
+[검증 정책](skills/project-init/references/verification.md)을 참고합니다.
+일반 커밋·푸시 요청만으로는 이 스킬을 선택하지 않으며, 문서 준비가 필요하면
+`$project-init prepare-commit`을 사용합니다.
+
 문서 준비만으로 커밋·푸시·원격 생성·배포·훅 설치를 요청한 것으로
 간주하지 않습니다. 기존 사용자 허용 범위는 계속 적용합니다.
 Claude 전용 연동은 [호환성 검토](skills/project-init/references/migration.md)가 필요합니다.
@@ -587,7 +605,9 @@ flowchart LR
 
 ## 테스트
 
-저장소 루트에서 검증을 실행합니다. CI 워크플로는 구성되어 있지 않습니다.
+[CONTRIBUTING.md](CONTRIBUTING.md)에 따라 검사를 선택하고 같은 입력의 결과는
+재사용합니다. 아래는 사용 가능한 검증 명령이며 매 커밋마다 전부 실행해야
+한다는 의미는 아닙니다. 저장소 루트에서 실행합니다. CI는 구성되어 있지 않습니다.
 
 ```bash
 # 전체 도우미 테스트와 소스·문서 검사를 실행합니다.
@@ -601,7 +621,8 @@ python3 -m unittest discover -s tests -p 'test_project_audit.py' -v
 테스트는 임시 사용자 디렉터리와 통제된 CLI 동작을 사용하며, 패키징 테스트는
 두 배포 파일을 압축 해제해 내용을 확인합니다.
 
-Codex와 plugin-creator 도우미가 설치되어 있다면 선택적 통합 검증을 활성화합니다.
+설치·CLI 변경에 영향이 있거나 릴리스에서 요구하면 Codex와 plugin-creator
+도우미를 사용하는 선택적 통합 검증을 활성화합니다.
 
 ```bash
 PROJECT_INIT_REAL_INTEGRATION=1 make test
@@ -649,7 +670,8 @@ Python·압축 도구가 같아야 합니다. 버전 기준은 `.codex-plugin/pl
 
 검사 도구는 Git clean/process 필터를 포함해 프로젝트 명령을 실행하지 않습니다.
 스킬의 `check` 모드에서도 프로젝트 테스트를 실행하지 않습니다. 문서 작성과
-커밋 준비에서는 요청 범위에 맞는 검증을 실행합니다. 구조 검사는 문서 내용
+커밋 준비에서는 범위에 맞게 검증하고 유효한 구현 테스트 결과를 재사용합니다.
+구조 검사는 문서 내용
 검토나 애플리케이션 테스트를 대신하지 않으며 스테이징 시크릿 징후 검사도
 범위가 제한적입니다. 제목 앵커와 외부 웹사이트는 별도로 검토해야 합니다.
 
@@ -662,7 +684,8 @@ Python·압축 도구가 같아야 합니다. 버전 기준은 `.codex-plugin/pl
    자신의 포크를 복제합니다.
 2. `git switch -c docs/refresh-project-guides`와 같이 작업 브랜치를 만듭니다.
 3. 사용자 작성 내용과 릴리스 이력을 보존하고 양언어 공개 문서와 `CHANGELOG.md`를
-   갱신한 뒤 `make test`, `make check`, `make package`를 실행합니다.
+   갱신한 뒤 변경에 필요한 검사를 수행하고 유효한 결과를 재사용합니다.
+   마지막 편집 후 배포 파일을 다시 만듭니다.
    의도한 경로만 스테이징하고 실제 스테이징된 차이를 검토한 뒤
    `git commit -m "docs: refresh bilingual project guides"`처럼
    변경을 설명하는 메시지로 커밋합니다.

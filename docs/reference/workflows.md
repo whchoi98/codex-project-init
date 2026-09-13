@@ -13,7 +13,20 @@ The skill uses focused references and templates only for the requested operation
 Initialization fills relevant gaps; synchronization updates affected documents;
 targeted additions stay within the requested scope. `check` inspects and reports
 without writing documents or running project tests. Authoring and commit
-preparation can execute relevant checks.
+preparation select missing required checks and reuse valid evidence.
+
+### Verification ownership
+
+Project Init owns document accuracy and scoped document/index checks. The primary
+development/test workflow and existing reviewer own implementation verification.
+Ordinary commit/push requests do not select this skill; explicit `prepare-commit`
+keeps document preparation available without creating another test/review pipeline.
+
+The [verification policy](../../skills/project-init/references/verification.md)
+defines change-based scope, input matching, invalidation, and result reporting.
+A current `check` already includes project observations, so read-only review
+does not need another `inspect`. Full-suite and release requirements remain
+applicable when explicitly required.
 
 ### README and CHANGELOG
 
@@ -71,7 +84,19 @@ Repeated synchronization with no new evidence should leave documents unchanged.
 초기화는 필요한 문서를 채우고, 동기화는 변경에 영향받는 문서를 갱신하며, 개별
 추가는 요청 범위를 유지합니다. `check`는 문서를 쓰거나 프로젝트 테스트를
 실행하지 않고 조사 결과를 보고합니다. 문서 작성과 커밋 준비에서는 관련 검증을
-실행할 수 있습니다.
+선택하고 유효한 기존 근거를 재사용합니다.
+
+### 검증 역할 분담
+
+Project Init은 문서의 정확성과 지정 범위의 문서·인덱스 검사를 맡습니다.
+구현 검증은 주 개발·테스트 작업과 기존 리뷰어가 담당합니다. 일반 커밋·푸시
+요청만으로는 이 스킬을 선택하지 않으며, 명시적인 `prepare-commit`에서는
+테스트·리뷰 절차를 새로 만들지 않고 문서 준비를 수행합니다.
+
+[검증 정책](../../skills/project-init/references/verification.md)에 변경별 범위,
+입력 비교, 무효화, 결과 보고를 정의합니다. 현재 상태의 `check`에는 프로젝트
+관찰 정보가 있으므로 읽기 전용 점검에 별도 `inspect`가 필요하지 않습니다.
+명시적으로 요구한 전체 테스트와 릴리스 규칙은 계속 적용합니다.
 
 ### README와 CHANGELOG
 

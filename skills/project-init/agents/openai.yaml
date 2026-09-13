@@ -1,4 +1,4 @@
 interface:
   display_name: "Project Init"
-  short_description: "Maintain project docs and inspect commit readiness"
+  short_description: "Maintain project docs with focused verification"
   default_prompt: "Use $project-init to inspect this project and prepare the documentation it needs."

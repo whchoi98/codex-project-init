@@ -12,6 +12,8 @@
   Unreleased, release history, shared comparison links, and version policy.
 - [Auditor](auditor.md): command and report contracts, boundaries, and limitations.
 - [Skill evaluation](skill-evaluation.md): task trials with isolated projects.
+- [Verification policy](../../skills/project-init/references/verification.md):
+  focused checks, reusable evidence, and shared ownership.
 
 <a id="korean"></a>
 ## 한국어
@@ -23,3 +25,5 @@
   Unreleased·릴리스 이력·공통 비교 링크·버전 정책.
 - [검사 도구](auditor.md): 명령·결과 계약, 검사 경계와 한계.
 - [스킬 검증](skill-evaluation.md): 격리된 프로젝트를 사용하는 작업 시나리오.
+- [검증 정책](../../skills/project-init/references/verification.md):
+  범위에 맞는 검사, 근거 재사용, 역할 분담.

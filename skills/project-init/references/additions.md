@@ -41,4 +41,6 @@ content outside any explicit managed region, and avoid duplicating managed
 regions when running again.
 
 Link new documents from the project's docs index and architecture where relevant.
-Run the read-only checker after the addition.
+Use one appropriately scoped read-only audit after the addition. Apply
+[verification scope and reuse](verification.md); adding a document does not
+start another application-test or code-review workflow.

@@ -13,6 +13,8 @@
   structure, evidence, and synchronization rules.
 - [Auditor contract](reference/auditor.md): profiles, JSON, scope, and limits.
 - [Skill evaluation](reference/skill-evaluation.md): repeatable behavior trials.
+- [Verification policy](../skills/project-init/references/verification.md):
+  avoid duplicate tests and reviews while preserving required coverage.
 - [Release runbook](runbooks/release.md): validate, package, install.
 - [Design decision](decisions/ADR-001-codex-native-workflows.md): adaptation rationale.
 
@@ -27,5 +29,7 @@
   구조, 근거, 동기화 규칙.
 - [검사 도구 계약](reference/auditor.md): 프로필·JSON·범위·한계.
 - [스킬 검증](reference/skill-evaluation.md): 반복 가능한 동작 시나리오.
+- [검증 정책](../skills/project-init/references/verification.md):
+  필수 범위를 유지하면서 테스트·리뷰 중복을 줄이는 방법.
 - [릴리스 런북](runbooks/release.md): 검증·패키징·설치.
 - [설계 결정](decisions/ADR-001-codex-native-workflows.md): 적용 근거.

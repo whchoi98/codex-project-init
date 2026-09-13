@@ -23,7 +23,9 @@ Apply the shared Shields language navigation to every new bilingual public
 document, including documentation indexes and supporting guides.
 
 - **AGENTS.md:** purpose, entrypoints, actual development/validation commands,
-  non-obvious invariants, and when to update docs/changelog. Keep it concise.
+  non-obvious invariants, and when to update docs/changelog. Include scope-aware
+  verification and reuse of valid results; do not invent a full-suite-per-commit
+  requirement. Preserve any actual mandatory project policy.
 - **README.md:** evidenced badges and bilingual descriptions, then the ordered
   sections in the README guide, including applicable configuration/tests/API
   details and truthful license/contact information.
@@ -36,7 +38,8 @@ document, including documentation indexes and supporting guides.
 - **docs/onboarding.md:** prerequisites, install/start/check commands, and the
   project's actual local workflow.
 - **CONTRIBUTING.md:** how to review changes, run checks, prepare a commit,
-  and use the established branch/PR process.
+  and use the established branch/PR process. Distinguish ordinary document work,
+  affected implementation checks, and release verification.
 - **.gitignore / .editorconfig:** fill genuine gaps using the existing stack.
   Preserve intentional rules and tracked examples.
 
@@ -97,11 +100,16 @@ Regenerate repository-owned archives after the final source/document edit.
 
 ## Verify
 
-Run `project_audit.py check PATH` after broad initialization. For a targeted
+Follow [verification scope and reuse](verification.md). Use current project/test
+observations already collected by the primary workflow. Run one
+`project_audit.py check PATH` after broad initialization. For a targeted
 sync/custom layout, use `--profile existing` with `--require-document` for
-requested deliverables. Review [semantic evidence](check.md) and run relevant
-project checks for authored changes. Preserve successful historical test reports
-as historical evidence; record fresh executions separately.
+requested deliverables; combine `--for-commit` when final index review is also
+requested. Review affected [semantic evidence](check.md), reusing valid reviews
+and test results. Ordinary documentation changes do not trigger application tests.
+Behavioral instruction/template changes use only the relevant scenarios.
+Preserve historical reports and distinguish them from evidence verified as
+applicable to the current inputs.
 
 Report changed files, performed checks, and concrete gaps. Distinguish missing
 Git metadata/remotes from documentation errors.

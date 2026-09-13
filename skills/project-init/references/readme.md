@@ -82,8 +82,10 @@ or insert empty optional sections on a repeat sync.
 
 Review the header, section sequence, bilingual meaning, code/output equality,
 local paths/anchors, badge sources, and absence of leftover template variables.
-Run applicable project checks within the authoring scope and report actual
-results separately from detected commands.
+Apply [verification scope and reuse](verification.md): document available test
+commands without treating them as mandatory for every README edit. Reuse valid
+results and run only missing checks required by the change or project policy.
+Report actual executions separately from detected commands and reused evidence.
 
 ## 한국어
 
@@ -152,5 +154,7 @@ results separately from detected commands.
 수정하며, 반복 동기화로 문장을 다시 쓰거나 빈 선택 섹션을 만들지 않습니다.
 
 최상단·헤딩 순서·번역의 의미·코드와 출력·경로와 앵커·배지의 근거·미치환
-변수를 확인합니다. 작성 범위에 맞는 검증을 실행하고, 실제 결과와 단순히
-탐지한 명령을 구분해 보고합니다.
+변수를 확인합니다. [검증 범위와 재사용](verification.md)에 따라 사용 가능한
+테스트 명령을 안내하되 매 README 수정의 필수 실행으로 만들지 않습니다.
+유효한 결과를 재사용하고 변경·프로젝트 규칙에 필요한 검사만 실행합니다.
+직접 실행, 단순히 탐지한 명령, 재사용한 근거를 구분해 보고합니다.

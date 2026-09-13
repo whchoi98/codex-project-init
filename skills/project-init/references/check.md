@@ -3,6 +3,8 @@
 Use this for a read-only `check` or the final review of authored documentation.
 The CLI supplies structural evidence. Codex supplies the comparison between
 documentation, code, and the user's request.
+Apply [verification scope and reuse](verification.md). A read-only review calls
+the selected `check` directly; it already includes the observations from `inspect`.
 
 ## Select the scope
 
@@ -62,7 +64,9 @@ Review only dimensions relevant to the request:
 | Codex instructions | Applicable AGENTS.md, actual validation commands, non-obvious invariants |
 | Maintenance | Affected docs/indexes, preserved Unreleased/history, equivalent bilingual facts |
 
-For README/changelog authoring, also review their
+Review only affected documents or the explicitly requested coverage. Reuse a
+current semantic review instead of having another reviewer repeat it. For
+README/changelog authoring, also review their
 [README](readme.md) and [CHANGELOG](changelog.md) contracts under the selected
 structure. Compare section order, applicable sections, executable examples,
 configuration values, and version/category entries across languages. Check badge

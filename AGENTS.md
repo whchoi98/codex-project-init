@@ -27,8 +27,13 @@ This repository packages one Codex skill and a read-only repository auditor.
 - Exercise installation/rollback in temporary scopes; native CLI trials use
   isolated profiles and local catalogues.
 - Run `make test`, `make check`, and `make package` for a release.
+- For ordinary changes, select checks by affected inputs and reuse valid prior
+  results. Prose-only edits do not require the application test suite.
+- Keep one test/review owner per scope; Project Init must not duplicate an
+  existing implementation review or CI/test run.
 - Keep new public docs in English/Korean. Avoid fixed test/file counts in guidance.
 - Rebuild distribution archives after the final source or documentation edit.
 - Update `CHANGELOG.md` with user-visible changes; retain Unreleased.
 - For workflow changes, use the isolated trials described in
-  `docs/reference/skill-evaluation.md` in addition to helper tests.
+  `docs/reference/skill-evaluation.md` in addition to helper test evidence.
+  Select affected trials; unchanged helper inputs can reuse verified results.

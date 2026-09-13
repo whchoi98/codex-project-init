@@ -10,6 +10,32 @@ and review trials: metadata validation alone cannot prove scope preservation,
 semantic accuracy, or repeated-run behavior. Review the authored results, not
 whether skill prose contains particular words or headings.
 
+### Select affected trials
+
+Use the [verification policy](../../skills/project-init/references/verification.md).
+Choose the cases affected by the instruction change; this catalogue is not a
+requirement to run every case for every commit. One coordinator owns each check.
+Reuse helper-test evidence when implementation inputs are unchanged, and report
+selected cases and unperformed coverage explicitly. Broaden trials for a release,
+a cross-cutting change, a failure, or an explicit project requirement.
+
+For verification-policy changes, add focused evidence-reuse trials in temporary
+Git projects. Execute a real focused test first and supply its command, exit code,
+scope, and input hashes as prior evidence. Count subsequent test executions:
+
+- With matching inputs and completed review evidence, documentation preparation
+  must reuse the results without another application test or code reviewer.
+- With ordinary document edits and no prior test receipt, missing evidence alone
+  must not create an application-test requirement.
+- Change a covered source/test/config input after recording the evidence.
+  Preparation must invalidate that result and run or report the missing relevant
+  check; it must not claim a current pass from the stale report.
+- For a plain Git-only request, check skill selection separately without running
+  a push or introducing a documentation workflow.
+
+Use command counters or execution traces, actual output, and input comparisons
+for these assertions. Do not substitute a prose keyword scan for agent behavior.
+
 ### Generate and isolate
 
 Use Python 3.9 or later and local Git. From the repository root, run:
@@ -245,6 +271,31 @@ Python 테스트는 도우미를 검증합니다. 스킬 변경에는 실제 작
 필요합니다. 메타데이터 검증만으로 요청 범위 보존, 내용의 정확성, 반복 실행
 동작을 입증할 수는 없습니다. 스킬 본문에 특정 단어나 제목이 있는지가 아니라
 실제 작성 결과를 검토합니다.
+
+### 영향받은 시나리오 선택
+
+[검증 정책](../../skills/project-init/references/verification.md)에 따라 지침
+변경에 영향받은 시나리오를 선택합니다. 이 목록 전체를 매 커밋마다 실행하는
+것은 아닙니다. 검사마다 담당자를 하나로 정하고 구현 입력이 같으면 도우미
+테스트 근거를 재사용합니다. 선택한 시나리오와 수행하지 않은 범위를 명시합니다.
+릴리스·공통 영역 변경·실패·명시적인 프로젝트 요구가 있을 때 범위를 넓힙니다.
+
+검증 정책을 변경하면 임시 Git 프로젝트에서 근거 재사용을 확인합니다.
+먼저 실제 관련 테스트를 실행하고 명령·종료 코드·범위·입력 해시를 이전 근거로
+제공한 뒤 후속 테스트 실행 횟수를 확인합니다.
+
+- 입력과 완료된 리뷰 근거가 일치하면 문서 준비는 애플리케이션 테스트나 코드
+  리뷰를 추가하지 않고 결과를 재사용해야 합니다.
+- 일반 문서 수정에 이전 테스트 기록이 없더라도, 기록 부재만으로 애플리케이션
+  테스트를 새 필수 절차로 만들면 안 됩니다.
+- 기록 후 검사 대상 소스·테스트·설정 입력을 변경하면 해당 결과를 무효화하고
+  빠진 관련 검사를 실행하거나 미검증으로 보고해야 하며 과거 결과를 현재의
+  통과로 표시하면 안 됩니다.
+- 일반 Git 작업 요청의 스킬 선택은 별도로 확인하며 실제 푸시나 문서 작업을
+  새로 시작하지 않습니다.
+
+명령 실행 기록·횟수, 실제 출력, 입력 비교로 확인합니다. 스킬 본문의 특정
+단어 유무 검사로 실제 동작 검증을 대신하지 않습니다.
 
 ### 생성과 격리
 
