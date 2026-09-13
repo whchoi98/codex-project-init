@@ -23,9 +23,11 @@ integration trials:
 PROJECT_INIT_REAL_INTEGRATION=1 make test
 ```
 
-These trials use scratch profiles and CLI help; they do not install a live
-plugin or use credentials. `PROJECT_INIT_REAL_CODEX` and
-`PROJECT_INIT_REAL_HELPERS` can select specific local tools.
+These trials use scratch profiles and bundled helpers, including native plugin
+installation and refresh from an extracted local catalogue. They do not use
+real credentials or the active user profile. `PROJECT_INIT_REAL_CODEX` and
+`PROJECT_INIT_REAL_HELPERS` can select specific local tools. Standalone installer
+tests exercise user/project scopes, complete payloads, and recovery after failures.
 
 For a requested commit, review the exact diff and stage intended paths. Use a
 descriptive message such as `fix: preserve custom documentation during sync`.
@@ -51,9 +53,11 @@ Codex와 plugin-creator 도우미가 설치되어 있다면 선택적인 통합 
 PROJECT_INIT_REAL_INTEGRATION=1 make test
 ```
 
-임시 프로필과 CLI 도움말을 사용하며 실제 플러그인을 설치하거나 자격 증명을
-사용하지 않습니다. `PROJECT_INIT_REAL_CODEX`, `PROJECT_INIT_REAL_HELPERS`로
-특정 로컬 도구를 선택할 수 있습니다.
+임시 프로필과 번들 도우미를 사용하며 압축을 해제한 로컬 목록으로 플러그인
+설치·갱신도 검증합니다. 실제 자격 증명이나 사용 중인 프로필은 사용하지 않습니다.
+`PROJECT_INIT_REAL_CODEX`, `PROJECT_INIT_REAL_HELPERS`로 로컬 도구를 선택합니다.
+단독 스킬 설치 테스트는 사용자·프로젝트 범위, 전체 리소스, 실패 후 복구를
+확인합니다.
 
 커밋을 요청받으면 실제 차이를 검토하고 의도한 파일만 스테이징합니다.
 `fix: preserve custom documentation during sync`처럼 변경을 설명하는 메시지를

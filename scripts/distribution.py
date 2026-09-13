@@ -23,8 +23,9 @@ PLUGIN_NAME = "codex-project-init"
 SKILL_NAME = "project-init"
 SKILL_ROOT = "skills/" + SKILL_NAME
 MANIFEST_PATH = ".codex-plugin/plugin.json"
+MARKETPLACE_PATH = ".agents/plugins/marketplace.json"
 ROOT_FILES = frozenset({
-    MANIFEST_PATH, "AGENTS.md", "README.md", "CHANGELOG.md", "CONTRIBUTING.md",
+    MANIFEST_PATH, MARKETPLACE_PATH, "AGENTS.md", "README.md", "CHANGELOG.md", "CONTRIBUTING.md",
     "LICENSE", "NOTICE", ".gitignore", ".editorconfig", "Makefile",
 })
 PAYLOAD_TREES = (SKILL_ROOT, "scripts", "docs", "tests", "assets")
@@ -483,6 +484,37 @@ def _validate_manifest(payload):
     return manifest
 
 
+def _validate_marketplace(payload, manifest):
+    """Keep the native catalogue self-contained with this single-plugin source."""
+    catalogue = json_object(payload[MARKETPLACE_PATH], MARKETPLACE_PATH)
+    _known_keys(catalogue, {"name", "interface", "plugins"}, "marketplace.json")
+    name = _string(catalogue.get("name"), "marketplace.json name")
+    if re.fullmatch(r"[A-Za-z0-9_-]+", name) is None:
+        raise DistributionError("marketplace.json name must be a marketplace identifier")
+    if "interface" in catalogue:
+        interface = _mapping(catalogue["interface"], "marketplace.json interface")
+        _known_keys(interface, {"displayName"}, "marketplace.json interface")
+        _string(interface.get("displayName"), "marketplace.json interface.displayName")
+    entries = catalogue.get("plugins")
+    if not isinstance(entries, list) or len(entries) != 1:
+        raise DistributionError("Marketplace must contain the bundled plugin exactly once")
+    entry = _mapping(entries[0], "marketplace plugin")
+    _known_keys(entry, {"name", "source", "policy", "category"}, "marketplace plugin")
+    if entry.get("name") != manifest["name"]:
+        raise DistributionError("Marketplace plugin must match the bundled plugin manifest")
+    if entry.get("source") != {"source": "local", "path": "./"}:
+        raise DistributionError("Marketplace must reference the bundled plugin root with ./")
+    _string(entry.get("category"), "marketplace plugin category")
+    policy = _mapping(entry.get("policy"), "marketplace plugin policy")
+    _known_keys(policy, {"installation", "authentication"}, "marketplace plugin policy")
+    installation = _string(policy.get("installation"), "marketplace installation policy")
+    authentication = _string(policy.get("authentication"), "marketplace authentication policy")
+    if installation not in {"NOT_AVAILABLE", "AVAILABLE", "INSTALLED_BY_DEFAULT"}:
+        raise DistributionError("Marketplace has an invalid installation policy")
+    if authentication not in {"ON_INSTALL", "ON_USE"}:
+        raise DistributionError("Marketplace has an invalid authentication policy")
+
+
 def _without_fences(text):
     lines = []
     fence = None
@@ -737,10 +769,12 @@ def validate_payload(payload):
         if portable in collisions:
             raise DistributionError("Payload paths collide on case-insensitive filesystems")
         collisions.add(portable)
-    for required in (MANIFEST_PATH, SKILL_ROOT + "/SKILL.md", SKILL_ROOT + "/scripts/project_audit.py"):
+    for required in (MANIFEST_PATH, MARKETPLACE_PATH,
+                     SKILL_ROOT + "/SKILL.md", SKILL_ROOT + "/scripts/project_audit.py"):
         if required not in payload:
             raise DistributionError("Missing required payload file: " + required)
     manifest = _validate_manifest(payload)
+    _validate_marketplace(payload, manifest)
     _validate_skill(payload)
     return manifest
 

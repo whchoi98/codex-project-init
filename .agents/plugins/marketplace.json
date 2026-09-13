@@ -1,0 +1,20 @@
+{
+  "name": "codex-project-init",
+  "interface": {
+    "displayName": "Codex Project Init"
+  },
+  "plugins": [
+    {
+      "name": "codex-project-init",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-.PHONY: test check package
+.PHONY: test check package install-skill install-plugin
 
 test:
 	python3 -m unittest discover -s tests -v
@@ -9,3 +9,9 @@ check:
 
 package:
 	python3 scripts/package_plugin.py
+
+install-skill:
+	python3 scripts/install.py --mode skill
+
+install-plugin:
+	python3 scripts/install.py --mode plugin

@@ -20,7 +20,10 @@ auditor reads files and Git metadata; it never executes detected project scripts
 | Document roles and links | [documents.py](../skills/project-init/scripts/project_init_audit/documents.py) |
 | Project facts and command provenance | [project.py](../skills/project-init/scripts/project_init_audit/project.py) |
 | Scoped Git observations | [git.py](../skills/project-init/scripts/project_init_audit/git.py) |
-| Installer | [install.py](../scripts/install.py) |
+| Installation entrypoint and local plugin flow | [install.py](../scripts/install.py) |
+| Standalone skill installation | [skill_install.py](../scripts/skill_install.py) |
+| Shared installation path guards | [install_common.py](../scripts/install_common.py) |
+| Native GitHub catalogue | [marketplace.json](../.agents/plugins/marketplace.json) |
 | Shared payload and source validation | [distribution.py](../scripts/distribution.py) |
 | Reproducible ZIP builder | [package_plugin.py](../scripts/package_plugin.py) |
 | Distribution verification | [validate_distribution.py](../scripts/validate_distribution.py) |
@@ -41,12 +44,18 @@ Document checks use the working tree; commit preflight reads index blobs and
 scoped diffs. The report separates command declarations from conventional
 suggestions and records incomplete coverage. See the [auditor contract](reference/auditor.md).
 
-The installer and packager share the same validated payload. Installation first
-prepares a complete candidate and helper-generated marketplace state, then
-replaces the destination with recovery information. Packaging fixes ZIP metadata
-and validates archive contents and checksums. Both distributions contain the
-complete skill; the plugin archive also carries the source project's operating
-docs and tooling. See the [release runbook](runbooks/release.md).
+The installers and packager share the same validated payload. Skill mode captures
+the full skill subtree and prepares a candidate before replacing a user/project
+installation. The local plugin flow also prepares helper-generated personal
+marketplace state. Both retain recovery information for replacements.
+The native catalogue lets Codex fetch this GitHub repository and install the
+plugin from its root using its own marketplace/cache management.
+
+Packaging fixes ZIP metadata and validates archive contents and checksums.
+The plugin archive includes the native catalogue; unrelated `.agents` state
+remains excluded. Both distributions contain the complete skill; the plugin
+archive also carries operating docs and tooling. See the
+[release runbook](runbooks/release.md).
 
 <a id="korean"></a>
 ## 한국어
@@ -66,7 +75,10 @@ docs and tooling. See the [release runbook](runbooks/release.md).
 | 문서 역할과 링크 | [documents.py](../skills/project-init/scripts/project_init_audit/documents.py) |
 | 프로젝트 정보와 명령 출처 | [project.py](../skills/project-init/scripts/project_init_audit/project.py) |
 | 지정 범위의 Git 조사 | [git.py](../skills/project-init/scripts/project_init_audit/git.py) |
-| 설치 도구 | [install.py](../scripts/install.py) |
+| 설치 진입점과 로컬 플러그인 절차 | [install.py](../scripts/install.py) |
+| 단독 스킬 설치 | [skill_install.py](../scripts/skill_install.py) |
+| 공통 설치 경로 검사 | [install_common.py](../scripts/install_common.py) |
+| GitHub 마켓플레이스 목록 | [marketplace.json](../.agents/plugins/marketplace.json) |
 | 공통 배포 대상과 소스 검증 | [distribution.py](../scripts/distribution.py) |
 | 재현 가능한 ZIP 생성 | [package_plugin.py](../scripts/package_plugin.py) |
 | 배포 파일 검증 | [validate_distribution.py](../scripts/validate_distribution.py) |
@@ -88,9 +100,13 @@ flowchart LR
 불완전한 검사 범위를 기록합니다. [검사 도구 계약](reference/auditor.md)을
 참고하세요.
 
-설치 도구와 패키징 도구는 같은 검증된 배포 대상을 사용합니다. 설치는 완전한
-후보 소스와 도우미가 생성한 마켓플레이스 상태를 먼저 준비한 뒤, 복구 정보를
-갖추고 설치 대상을 교체합니다. 패키징은 ZIP 메타데이터를 고정하고 압축 내용과
-체크섬을 검증합니다. 두 배포 형식 모두 전체 스킬을 포함하며 플러그인 ZIP에는
-소스 프로젝트의 운영 문서와 도구도 들어 있습니다.
-[릴리스 런북](runbooks/release.md)을 참고하세요.
+설치 도구와 패키징 도구는 같은 검증된 배포 대상을 사용합니다. 스킬 모드는
+전체 스킬 파일을 확보하고 후보를 준비한 뒤 사용자·프로젝트 설치본을 교체합니다.
+로컬 플러그인 절차는 도우미가 생성한 개인 마켓플레이스 상태도 준비합니다.
+두 방식 모두 교체 시 복구 정보를 보존합니다. GitHub 목록은 Codex가 저장소를
+가져와 자체 마켓플레이스·캐시 관리로 루트 플러그인을 설치할 수 있게 합니다.
+
+패키징은 ZIP 메타데이터를 고정하고 압축 내용과 체크섬을 검증합니다.
+플러그인 ZIP에는 GitHub 목록이 포함되며 관련 없는 `.agents` 상태는 제외합니다.
+두 형식 모두 전체 스킬을 포함하고 플러그인 ZIP에는 운영 문서와 도구도 들어
+있습니다. [릴리스 런북](runbooks/release.md)을 참고하세요.

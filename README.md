@@ -34,45 +34,98 @@ This README and [CHANGELOG.md](CHANGELOG.md) follow the repository's
 
 - Python 3.9+; the auditor and tests use the standard library.
 - Git for Git observations, commit preflight, and the test suite.
-- Codex with plugin support and its bundled plugin-creator helpers for plugin
-  installation.
+- Codex for using the skill; the GitHub plugin route requires a CLI with
+  `plugin marketplace` support.
+- Bundled plugin-creator helpers for the local personal-marketplace installer.
 - Make for the development and packaging commands below.
 
 ## Installation
 
-Run from the root of a source checkout:
+Choose a standalone skill or a plugin to avoid duplicate skill entries.
 
-```bash
-# Preview the installation plan.
-python3 scripts/install.py --dry-run
-# Install after reviewing the plan.
-python3 scripts/install.py
+### Standalone skill
+
+Paste this request into Codex:
+
+```text
+Use $skill-installer to install https://github.com/whchoi98/codex-project-init/tree/main/skills/project-init into ~/.agents/skills
 ```
 
-The plugin is copied to `~/plugins/codex-project-init` and added to the personal
-marketplace at `~/.agents/plugins/marketplace.json`, preserving its other entries.
-Keep the checkout separate from the installation destination. Open a new Codex
-thread afterward.
+The complete skill folder belongs at `~/.agents/skills/project-init`, including
+its auditor modules, references, templates, and notices. Start a new Codex
+conversation after installation.
 
-For an update, preview the replacement, then install it with a backup of the
-previous source:
+### Plugin from GitHub
+
+Run these commands with a plugin-enabled Codex CLI:
 
 ```bash
-# Preview a replacement.
-python3 scripts/install.py --dry-run --replace
-# Replace the installed source and retain its backup.
-python3 scripts/install.py --replace
+# Register this repository's marketplace.
+codex plugin marketplace add whchoi98/codex-project-init --ref main
+# Install the plugin.
+codex plugin add codex-project-init@codex-project-init
 ```
 
+The repository's [.agents/plugins/marketplace.json](.agents/plugins/marketplace.json)
+points to the plugin at its root. Codex manages the downloaded source and plugin
+cache. Open a new conversation to use the installed plugin.
+
+To update that GitHub installation:
+
+```bash
+# Refresh this marketplace's tracked source.
+codex plugin marketplace upgrade codex-project-init
+# Reinstall from the refreshed source.
+codex plugin add codex-project-init@codex-project-init
+```
+
+### Local checkout or plugin ZIP
+
+Clone the source to use the Python installer:
+
+```bash
+# Get the source.
+git clone --depth 1 https://github.com/whchoi98/codex-project-init.git
+cd codex-project-init
+# Install the standalone skill for the current user.
+python3 scripts/install.py --mode skill
+```
+
+For installation into one existing project, select project scope:
+
+```bash
+# Install for the selected project.
+python3 scripts/install.py --mode skill --project /path/to/project
+```
+
+This uses `PROJECT/.agents/skills/project-init`. Add `--dry-run` to preview either
+scope without writing, or `--replace` to update an existing skill while retaining
+its previous directory as a backup. The local skill installer uses Python 3.9+
+and requires directory-descriptor APIs, such as those on Linux/macOS. On platforms
+without those APIs, use the Codex skill installation request above.
+
+For the local personal-marketplace plugin workflow:
+
+```bash
+# Preview the local plugin installation.
+python3 scripts/install.py --mode plugin --dry-run
+# Install the local plugin.
+python3 scripts/install.py --mode plugin
+```
+
+This workflow uses bundled plugin-creator helpers, copies source to
+`~/plugins/codex-project-init`, and preserves other entries in
+`~/.agents/plugins/marketplace.json`. Keep the checkout separate from that
+destination. Plugin mode remains the default when `--mode` is omitted.
+Use `--dry-run --replace`, then `--replace`, for a backed-up update.
 If multiple Codex installations exist, pass `--codex /absolute/path/to/codex`
-to both the dry run and installation so they use the same executable.
+to both commands.
 
-Alternatively, unpack the standalone skill ZIP produced by `make package` and
-place the whole `project-init` folder in `~/.agents/skills/` or the project's
-`.agents/skills/` directory. Keep its references, assets, and
-`scripts/project_init_audit/` package together. Choose one installation method
-to avoid duplicate entries. See the [release/install runbook](docs/runbooks/release.md)
-for packaging and recovery details.
+From a checkout, `make install-skill` and `make install-plugin` are shortcuts for
+the user-scoped modes. An extracted plugin ZIP supports the same Python commands.
+For a manual standalone ZIP installation, place the entire `project-init` folder
+in a user or project `.agents/skills/` directory.
+See the [release/install runbook](docs/runbooks/release.md) for verification and recovery.
 
 ## Usage
 
@@ -128,8 +181,8 @@ Claude-specific integrations require a [compatibility assessment](skills/project
 
 ## Configuration
 
-Configure the auditor with CLI options. The installer and optional integration
-trials read these environment variables:
+Configure the auditor and installation scope with CLI options. Codex, the local
+plugin installer, and optional integration trials use these environment variables:
 
 | Variable | Description | Default |
 |---|---|---|
@@ -139,8 +192,10 @@ trials read these environment variables:
 | `PROJECT_INIT_REAL_HELPERS` | Plugin-creator scripts directory for optional integration trials. | `$CODEX_HOME/skills/.system/plugin-creator/scripts` |
 
 The helper-directory default uses the effective `CODEX_HOME` fallback above.
-The installer uses `HOME` for its source destination and personal marketplace,
-and finds Codex through `PATH` unless `--codex` selects an executable.
+User skill installation uses `HOME` for `.agents/skills`; `--project` selects a
+project scope. The local plugin installer uses `HOME` for its source destination
+and personal marketplace, and finds Codex through `PATH` unless `--codex` selects
+an executable.
 
 ## Project Structure
 
@@ -148,6 +203,7 @@ Selected paths:
 
 ```text
 codex-project-init/
+├── .agents/plugins/marketplace.json   # Native GitHub marketplace catalogue
 ├── .codex-plugin/plugin.json          # Plugin metadata and version
 ├── AGENTS.md                          # Repository instructions
 ├── README.md
@@ -159,7 +215,9 @@ codex-project-init/
 ├── docs/                              # Architecture, onboarding, and operating docs
 ├── scripts/
 │   ├── distribution.py                # Shared installation and packaging payload
-│   ├── install.py                     # Personal-marketplace installer
+│   ├── install.py                     # Skill/plugin installation entrypoint
+│   ├── install_common.py              # Shared installation path guards
+│   ├── skill_install.py               # Standalone skill installer
 │   ├── package_plugin.py              # Reproducible ZIP builder
 │   └── validate_distribution.py       # Source and archive validation
 ├── skills/project-init/
@@ -209,8 +267,9 @@ trials:
 PROJECT_INIT_REAL_INTEGRATION=1 make test
 ```
 
-These trials use scratch profiles and CLI help without installing a live plugin
-or using credentials. Select local tools with the `PROJECT_INIT_REAL_CODEX`
+These trials use scratch profiles, bundled helpers, and the real CLI to install
+and refresh a plugin from a local catalogue. They use no real credentials or
+active user profile. Select local tools with the `PROJECT_INIT_REAL_CODEX`
 and `PROJECT_INIT_REAL_HELPERS` variables above. For skill workflow changes,
 also run the [isolated behavior trials](docs/reference/skill-evaluation.md) and
 review actual output, preservation, and repeated-run behavior.
@@ -317,43 +376,98 @@ questions and bug reports. No public contact email is published in this reposito
 
 - Python 3.9 이상이 필요하며 검사 도구와 테스트는 표준 라이브러리를 사용합니다.
 - Git 조사, 커밋 사전 검사, 테스트에는 Git이 필요합니다.
-- 플러그인 설치에는 플러그인을 지원하는 Codex와 번들 plugin-creator
-  도우미가 필요합니다.
+- 스킬 사용에는 Codex가 필요하며, GitHub 플러그인 설치에는
+  `plugin marketplace` 명령을 지원하는 CLI가 필요합니다.
+- 로컬 개인 마켓플레이스 설치에는 번들 plugin-creator 도우미가 필요합니다.
 - 아래 개발·패키징 명령에는 Make가 필요합니다.
 
 ## 설치 방법
 
-소스 사본의 저장소 루트에서 실행합니다.
+스킬이 중복 등록되지 않도록 단독 스킬 또는 플러그인 중 한 방식을 선택합니다.
 
-```bash
-# 설치 계획을 미리 확인합니다.
-python3 scripts/install.py --dry-run
-# 계획을 검토한 뒤 설치합니다.
-python3 scripts/install.py
+### 단독 스킬
+
+Codex에 다음 요청을 붙여 넣습니다.
+
+```text
+Use $skill-installer to install https://github.com/whchoi98/codex-project-init/tree/main/skills/project-init into ~/.agents/skills
 ```
 
-플러그인을 `~/plugins/codex-project-init`에 복사하고 개인 마켓플레이스
-`~/.agents/plugins/marketplace.json`에 등록하며, 다른 항목은
-보존합니다. 소스 사본과 설치 대상은 서로 다른 경로에 둡니다.
-설치 후 새 Codex 대화를 여세요.
+검사 모듈·참조 문서·템플릿·라이선스 고지를 포함한 전체 스킬 폴더를
+`~/.agents/skills/project-init`에 설치합니다. 설치 후 새 Codex 대화를 시작합니다.
 
-갱신할 때는 교체 계획을 미리 확인한 뒤 이전 소스를 백업하며 설치합니다.
+### GitHub에서 플러그인 설치
+
+플러그인 명령을 지원하는 Codex CLI에서 실행합니다.
 
 ```bash
-# 교체 계획을 미리 확인합니다.
-python3 scripts/install.py --dry-run --replace
-# 설치된 소스를 교체하고 백업을 남깁니다.
-python3 scripts/install.py --replace
+# 이 저장소의 마켓플레이스를 등록합니다.
+codex plugin marketplace add whchoi98/codex-project-init --ref main
+# 플러그인을 설치합니다.
+codex plugin add codex-project-init@codex-project-init
 ```
 
-Codex가 여러 경로에 설치되어 있다면 dry run과 설치에
-`--codex /absolute/path/to/codex`를 지정해 같은 실행 파일을 사용합니다.
+저장소의 [.agents/plugins/marketplace.json](.agents/plugins/marketplace.json)이
+루트의 플러그인을 가리킵니다. 다운로드한 소스와 플러그인 캐시는 Codex가
+관리합니다. 설치한 플러그인은 새 대화에서 사용합니다.
 
-`make package`로 만든 단독 스킬 ZIP을 풀어 `project-init` 폴더 전체를
-`~/.agents/skills/` 또는 프로젝트의 `.agents/skills/`에 넣을 수도 있습니다.
-참조 문서, 템플릿, `scripts/project_init_audit/` 패키지를 함께 유지합니다.
-중복 등록을 피하려면 한 가지 설치 방법을 선택합니다. 패키징과 복구에 관한
-내용은 [릴리스·설치 런북](docs/runbooks/release.md)을 참고하세요.
+GitHub 설치본을 갱신할 때는 다음 명령을 실행합니다.
+
+```bash
+# 이 마켓플레이스가 추적하는 소스를 갱신합니다.
+codex plugin marketplace upgrade codex-project-init
+# 갱신한 소스로 다시 설치합니다.
+codex plugin add codex-project-init@codex-project-init
+```
+
+### 로컬 소스 또는 플러그인 ZIP
+
+Python 설치 도구를 사용하려면 소스를 복제합니다.
+
+```bash
+# 소스를 내려받습니다.
+git clone --depth 1 https://github.com/whchoi98/codex-project-init.git
+cd codex-project-init
+# 현재 사용자의 단독 스킬로 설치합니다.
+python3 scripts/install.py --mode skill
+```
+
+기존 프로젝트 하나에 설치할 때는 프로젝트 범위를 선택합니다.
+
+```bash
+# 지정한 프로젝트에 설치합니다.
+python3 scripts/install.py --mode skill --project /path/to/project
+```
+
+설치 경로는 `PROJECT/.agents/skills/project-init`입니다. 두 범위 모두
+`--dry-run`을 추가하면 파일을 쓰지 않고 미리 확인할 수 있습니다.
+기존 스킬을 갱신할 때는 `--replace`로 이전 디렉터리를 백업하며 교체합니다.
+로컬 스킬 설치 도구는 Python 3.9 이상과 Linux/macOS 등의 디렉터리
+디스크립터 API를 요구합니다. 해당 API가 없는 플랫폼에서는 위의 Codex
+스킬 설치 요청을 사용합니다.
+
+로컬 개인 마켓플레이스 방식의 플러그인 설치 명령은 다음과 같습니다.
+
+```bash
+# 로컬 플러그인 설치를 미리 확인합니다.
+python3 scripts/install.py --mode plugin --dry-run
+# 로컬 플러그인을 설치합니다.
+python3 scripts/install.py --mode plugin
+```
+
+이 방식은 번들 plugin-creator 도우미를 사용하며 소스를
+`~/plugins/codex-project-init`에 복사하고
+`~/.agents/plugins/marketplace.json`의 다른 항목을 보존합니다.
+소스 사본과 설치 대상은 서로 다른 경로에 둡니다. `--mode`를 생략하면
+기존과 같이 플러그인 모드로 실행합니다. 갱신 시 `--dry-run --replace`로
+확인한 뒤 `--replace`로 백업하며 교체합니다. Codex가 여러 경로에 설치되어
+있다면 두 명령에 `--codex /absolute/path/to/codex`를 지정합니다.
+
+소스 사본에서는 `make install-skill`, `make install-plugin`도 사용자 범위
+설치의 단축 명령으로 사용할 수 있습니다. 플러그인 ZIP을 풀어도 같은 Python
+명령을 사용합니다. 단독 스킬 ZIP을 수동으로 설치할 때는 `project-init` 폴더
+전체를 사용자 또는 프로젝트의 `.agents/skills/`에 넣습니다.
+검증과 복구 절차는 [릴리스·설치 런북](docs/runbooks/release.md)을 참고하세요.
 
 ## 사용법
 
@@ -409,8 +523,8 @@ Claude 전용 연동은 [호환성 검토](skills/project-init/references/migrat
 
 ## 환경 설정
 
-검사 도구는 CLI 옵션으로 설정합니다. 설치 도구와 선택적 통합 검증은 다음
-환경 변수를 읽습니다.
+검사 도구와 설치 범위는 CLI 옵션으로 설정합니다. Codex, 로컬 플러그인
+설치 도구, 선택적 통합 검증은 다음 환경 변수를 사용합니다.
 
 | 변수명 | 설명 | 기본값 |
 |---|---|---|
@@ -420,8 +534,9 @@ Claude 전용 연동은 [호환성 검토](skills/project-init/references/migrat
 | `PROJECT_INIT_REAL_HELPERS` | 선택적 통합 검증에서 사용할 plugin-creator 스크립트 디렉터리입니다. | `$CODEX_HOME/skills/.system/plugin-creator/scripts` |
 
 도우미 디렉터리의 기본값에는 위의 기본 경로를 반영한 `CODEX_HOME`을 사용합니다.
-설치 도구는 `HOME`을 기준으로 소스 설치 대상과 개인 마켓플레이스를 정하고,
-`--codex`로 실행 파일을 지정하지 않으면 `PATH`에서 Codex를 찾습니다.
+사용자 스킬 설치는 `HOME`의 `.agents/skills`를 사용하며 `--project`로 프로젝트
+범위를 선택합니다. 로컬 플러그인 설치 도구는 `HOME`을 기준으로 소스 설치 대상과
+개인 마켓플레이스를 정하고, `--codex`가 없으면 `PATH`에서 Codex를 찾습니다.
 
 ## 프로젝트 구조
 
@@ -429,6 +544,7 @@ Claude 전용 연동은 [호환성 검토](skills/project-init/references/migrat
 
 ```text
 codex-project-init/
+├── .agents/plugins/marketplace.json   # GitHub 마켓플레이스 목록
 ├── .codex-plugin/plugin.json          # 플러그인 메타데이터와 버전
 ├── AGENTS.md                          # 저장소 지침
 ├── README.md
@@ -440,7 +556,9 @@ codex-project-init/
 ├── docs/                              # 아키텍처, 온보딩, 운영 문서
 ├── scripts/
 │   ├── distribution.py                # 설치와 패키징의 공통 배포 대상
-│   ├── install.py                     # 개인 마켓플레이스 설치 도구
+│   ├── install.py                     # 스킬·플러그인 설치 진입점
+│   ├── install_common.py              # 공통 설치 경로 검사
+│   ├── skill_install.py               # 단독 스킬 설치 도구
 │   ├── package_plugin.py              # 재현 가능한 ZIP 생성 도구
 │   └── validate_distribution.py       # 소스와 배포 파일 검증
 ├── skills/project-init/
@@ -489,8 +607,9 @@ Codex와 plugin-creator 도우미가 설치되어 있다면 선택적 통합 검
 PROJECT_INIT_REAL_INTEGRATION=1 make test
 ```
 
-임시 프로필과 CLI 도움말을 사용하며 실제 플러그인을 설치하거나 자격 증명을
-사용하지 않습니다. 위의 `PROJECT_INIT_REAL_CODEX`와 `PROJECT_INIT_REAL_HELPERS`
+임시 프로필, 번들 도우미, 실제 CLI를 사용해 로컬 목록의 플러그인을 설치하고
+갱신합니다. 실제 자격 증명이나 사용 중인 프로필은 사용하지 않습니다.
+위의 `PROJECT_INIT_REAL_CODEX`와 `PROJECT_INIT_REAL_HELPERS`
 변수로 로컬 도구를 선택합니다. 스킬 작업 흐름을 변경하면
 [격리된 동작 시나리오](docs/reference/skill-evaluation.md)도 실행하고 실제 결과,
 기존 내용 보존, 반복 실행 동작을 검토합니다.

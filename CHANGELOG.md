@@ -17,6 +17,10 @@ comparison links.
 
 ### Added
 
+- Add native GitHub plugin installation through a validated, self-contained
+  marketplace catalogue.
+- Add standalone skill installation for user and project scopes, with previews,
+  replacement backups, and failure recovery.
 - Add structured bilingual README and changelog guides and templates for
   initialization and synchronization.
 - Add `sync-doc` as an alias for documentation synchronization.
@@ -70,6 +74,9 @@ Git 릴리스 태그가 없어 버전 헤딩에는 릴리스·비교 링크를 �
 
 ### Added
 
+- 검증된 자체 포함 마켓플레이스 목록을 통한 GitHub 플러그인 설치 추가.
+- 미리보기·교체 백업·실패 복구를 지원하는 사용자·프로젝트 범위 단독 스킬
+  설치 추가.
 - 초기화와 동기화를 위한 구조화된 이중 언어 README·변경 이력 작성 지침과
   템플릿 추가.
 - 문서 동기화 별칭 `sync-doc` 추가.

@@ -6,6 +6,9 @@ This repository packages one Codex skill and a read-only repository auditor.
 - Runtime helper: `skills/project-init/scripts/project_audit.py`.
 - Auditor implementation: sibling `scripts/project_init_audit/` package.
 - Shared installation/distribution payload: `scripts/distribution.py`.
+- Native GitHub catalogue: `.agents/plugins/marketplace.json` points to this root.
+- Installation entrypoint: `scripts/install.py`; skill mode uses
+  `scripts/skill_install.py`, and plugin mode remains the default.
 - Plugin version source: `.codex-plugin/plugin.json`.
 - Preserve user content and historical changelog entries in consuming projects.
 - Use the dedicated README/CHANGELOG guides and templates for new documents;
@@ -21,6 +24,8 @@ This repository packages one Codex skill and a read-only repository auditor.
   command provenance. Scope Git observations to the requested project path.
 - Test with temporary projects and real local Git repositories. Do not push or
   use real credentials in tests.
+- Exercise installation/rollback in temporary scopes; native CLI trials use
+  isolated profiles and local catalogues.
 - Run `make test`, `make check`, and `make package` for a release.
 - Keep new public docs in English/Korean. Avoid fixed test/file counts in guidance.
 - Rebuild distribution archives after the final source or documentation edit.

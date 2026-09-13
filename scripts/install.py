@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install through Codex's personal-marketplace helpers."""
+"""Install a Codex plugin (default) or a standalone project-init skill."""
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -18,6 +18,15 @@ from typing import Dict, Optional, Tuple
 
 # Importing the shared validator must not create files during a dry run.
 sys.dont_write_bytecode = True
+if __package__:
+    from .install_common import (
+        InstallError, _absolute, _identity, _overlap, _safe_path, _writable_parent,
+    )
+else:
+    from install_common import (
+        InstallError, _absolute, _identity, _overlap, _safe_path, _writable_parent,
+    )
+
 SOURCE = Path(__file__).absolute().parents[1]
 NAME = "codex-project-init"
 HELPER_OPTIONS = {
@@ -25,10 +34,6 @@ HELPER_OPTIONS = {
     "read_marketplace_name.py": ("--marketplace-path",),
     "update_plugin_cachebuster.py": ("plugin_path",),
 }
-
-
-class InstallError(ValueError):
-    """An actionable installer error that contains no child-process output."""
 
 
 @dataclass(frozen=True)
@@ -68,52 +73,6 @@ class InstallState:
     marketplace_published: bool = False
     cli_attempted: bool = False
     retain_work: bool = False
-
-
-def _absolute(path):
-    path = Path(path).expanduser()
-    if ".." in path.parts:
-        raise InstallError("Installation paths must not contain parent traversal.")
-    return path.absolute()
-
-
-def _safe_path(path, *, directory, required=False):
-    """Check every component without resolving away symlinks."""
-    for component in reversed((path,) + tuple(path.parents)):
-        try:
-            info = component.lstat()
-        except FileNotFoundError:
-            if component == path and required:
-                raise InstallError("A required installation path is missing.") from None
-            continue
-        if stat.S_ISLNK(info.st_mode):
-            raise InstallError("Installation paths and ancestors must not be symlinks.")
-        want_directory = component != path or directory
-        if want_directory and not stat.S_ISDIR(info.st_mode):
-            raise InstallError("An installation directory or ancestor is not a directory.")
-        if not want_directory and not stat.S_ISREG(info.st_mode):
-            raise InstallError("An installation file is not a regular file.")
-        if not want_directory and info.st_nlink != 1:
-            raise InstallError("Installation files must not have multiple hard links.")
-
-
-def _writable_parent(path):
-    while not path.exists():
-        path = path.parent
-    if not os.access(path, os.W_OK | os.X_OK):
-        raise InstallError("An installation parent directory is not writable.")
-
-
-def _identity(path):
-    try:
-        info = path.lstat()
-    except FileNotFoundError:
-        return None
-    return info.st_dev, info.st_ino
-
-
-def _overlap(first, second):
-    return first == second or first in second.parents or second in first.parents
 
 
 def _command(command, label, environment, *, cwd=None, timeout=30):
@@ -460,17 +419,36 @@ def install(plan):
 
 def main(argv=None, *, source=SOURCE, home=None, codex_home=None, helpers=None, environment=None):
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--mode", choices=("plugin", "skill"), default="plugin",
+                        help="Install a plugin (default) or a standalone skill.")
+    parser.add_argument("--project", metavar="PATH",
+                        help="Install into an existing project's .agents/skills (skill mode only).")
     parser.add_argument("--dry-run", action="store_true", help="Run read-only preflight and show the plan.")
     parser.add_argument("--codex", help="Use a specific Codex executable when multiple installations exist.")
     parser.add_argument("--replace", action="store_true",
                         help="Back up and replace an existing source installation.")
     args = parser.parse_args(argv)
+    if args.mode == "skill" and args.codex is not None:
+        parser.error("--codex is valid only in plugin mode.")
+    if args.mode != "skill" and args.project is not None:
+        parser.error("--project is valid only in skill mode.")
     try:
-        plan = build_plan(
-            source=source, home=home, codex_home=codex_home, helpers=helpers,
-            codex=args.codex, replace=args.replace, environment=environment,
-        )
-        result = plan.report() if args.dry_run else install(plan)
+        if args.mode == "skill":
+            if __package__:
+                from . import skill_install
+            else:
+                import skill_install
+            plan = skill_install.build_plan(
+                source=source, home=home, project=args.project,
+                replace=args.replace, environment=environment,
+            )
+            result = plan.report() if args.dry_run else skill_install.install(plan)
+        else:
+            plan = build_plan(
+                source=source, home=home, codex_home=codex_home, helpers=helpers,
+                codex=args.codex, replace=args.replace, environment=environment,
+            )
+            result = plan.report() if args.dry_run else install(plan)
     except (InstallError, OSError, ValueError) as error:
         message = str(error) if isinstance(error, InstallError) else "Installation preflight or filesystem access failed."
         print("Installation failed: " + message, file=sys.stderr)

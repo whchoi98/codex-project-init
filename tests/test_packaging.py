@@ -159,6 +159,67 @@ class PackagingTests(unittest.TestCase):
             self.assertFalse(any(marker.encode("utf-8") in archive.read(name)
                                  for name in members))
 
+    def native_catalogue(self):
+        # The sandbox may expose the checkout's .agents as read-only. Mutation
+        # tests own this disposable copy, not the source checkout's permissions.
+        for relative in (".agents", ".agents/plugins", ".agents/plugins/marketplace.json"):
+            path = self.source / relative
+            if path.exists():
+                path.chmod(stat.S_IMODE(path.stat().st_mode) | (0o700 if path.is_dir() else 0o600))
+        return {
+            "name": "codex-project-init",
+            "interface": {"displayName": "Codex Project Init"},
+            "plugins": [{
+                "name": "codex-project-init",
+                "source": {"source": "local", "path": "./"},
+                "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+                "category": "Productivity",
+            }],
+        }
+
+    def test_plugin_archive_preserves_a_resolvable_native_marketplace(self):
+        catalogue = self.native_catalogue()
+        self.write(".agents/plugins/marketplace.json", json.dumps(catalogue) + "\n")
+        self.write(".agents/settings.json", '{"local_only": true}\n')
+        self.good_build()
+        with zipfile.ZipFile(self.archive()) as archive:
+            name = "codex-project-init/.agents/plugins/marketplace.json"
+            self.assertIn(name, archive.namelist())
+            bundled = json.loads(archive.read(name))
+            self.assertEqual(bundled, catalogue)
+            plugin_root = "codex-project-init/" + bundled["plugins"][0]["source"]["path"][2:]
+            manifest = json.loads(archive.read(plugin_root + ".codex-plugin/plugin.json"))
+            self.assertEqual(manifest["name"], bundled["plugins"][0]["name"])
+            self.assertNotIn("codex-project-init/.agents/settings.json", archive.namelist())
+        with zipfile.ZipFile(self.archive("skill")) as archive:
+            self.assertFalse(any("/.agents/" in name for name in archive.namelist()))
+
+    def test_invalid_native_marketplace_cannot_replace_valid_distributions(self):
+        for broken in ("outside", "missing", "wrong_plugin", "missing_policy",
+                       "policy_type", "duplicate"):
+            with self.subTest(broken=broken):
+                catalogue = self.native_catalogue()
+                self.write(".agents/plugins/marketplace.json", json.dumps(catalogue) + "\n")
+                self.good_build()
+                before = self.snapshot(self.output)
+                if broken == "outside":
+                    catalogue["plugins"][0]["source"]["path"] = "../outside"
+                elif broken == "missing":
+                    catalogue["plugins"][0]["source"]["path"] = "./missing"
+                elif broken == "wrong_plugin":
+                    catalogue["plugins"][0]["name"] = "some-other-plugin"
+                elif broken == "missing_policy":
+                    del catalogue["plugins"][0]["policy"]
+                elif broken == "policy_type":
+                    catalogue["plugins"][0]["policy"]["installation"] = []
+                else:
+                    catalogue["plugins"].append(dict(catalogue["plugins"][0]))
+                self.write(".agents/plugins/marketplace.json", json.dumps(catalogue) + "\n")
+                result = self.build()
+                self.assertNotEqual(result.returncode, 0)
+                self.assertNotIn("Traceback", result.stderr)
+                self.assertEqual(self.snapshot(self.output), before)
+
     def test_prefixed_credential_filenames_are_excluded_from_both_payloads(self):
         names = (
             "client_secret.json", "local-credentials.json", "oauth-client-secrets.yaml",
