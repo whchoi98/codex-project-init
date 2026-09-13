@@ -13,6 +13,8 @@ auditor reads files and Git metadata; it never executes detected project scripts
 |---|---|
 | Workflow router | [SKILL.md](../skills/project-init/SKILL.md) |
 | Authoring guidance | [initialize.md](../skills/project-init/references/initialize.md) |
+| README structure and sync | [readme.md](../skills/project-init/references/readme.md) and [template](../skills/project-init/assets/readme.md) |
+| CHANGELOG structure and releases | [changelog.md](../skills/project-init/references/changelog.md) and [template](../skills/project-init/assets/changelog.md) |
 | Audit CLI and report | [project_audit.py](../skills/project-init/scripts/project_audit.py) |
 | Bounded filesystem access | [filesystem.py](../skills/project-init/scripts/project_init_audit/filesystem.py) |
 | Document roles and links | [documents.py](../skills/project-init/scripts/project_init_audit/documents.py) |
@@ -57,6 +59,8 @@ docs and tooling. See the [release runbook](runbooks/release.md).
 |---|---|
 | 작업 분기 | [SKILL.md](../skills/project-init/SKILL.md) |
 | 작성 지침 | [initialize.md](../skills/project-init/references/initialize.md) |
+| README 구조와 동기화 | [readme.md](../skills/project-init/references/readme.md)와 [템플릿](../skills/project-init/assets/readme.md) |
+| CHANGELOG 구조와 릴리스 | [changelog.md](../skills/project-init/references/changelog.md)와 [템플릿](../skills/project-init/assets/changelog.md) |
 | 검사 CLI와 결과 | [project_audit.py](../skills/project-init/scripts/project_audit.py) |
 | 범위가 제한된 파일 접근 | [filesystem.py](../skills/project-init/scripts/project_init_audit/filesystem.py) |
 | 문서 역할과 링크 | [documents.py](../skills/project-init/scripts/project_init_audit/documents.py) |

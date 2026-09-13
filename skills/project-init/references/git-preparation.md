@@ -19,7 +19,9 @@ commit to review; no remote is required for a local commit.
 ## Prepare
 
 1. Reconcile the README, AGENTS.md, affected docs, and Unreleased against actual
-   changes. Preserve published history and established version rules.
+   changes. Use the [README](readme.md) and [CHANGELOG](changelog.md) guides for
+   affected files and preserve their selected structure, published history,
+   and established version rules.
 2. Run relevant declared checks and record their results. Detecting a command is
    not the same as running it successfully.
 3. Inspect intended changes and file links. Exclude caches, credentials, generated

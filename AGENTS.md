@@ -8,6 +8,8 @@ This repository packages one Codex skill and a read-only repository auditor.
 - Shared installation/distribution payload: `scripts/distribution.py`.
 - Plugin version source: `.codex-plugin/plugin.json`.
 - Preserve user content and historical changelog entries in consuming projects.
+- Use the dedicated README/CHANGELOG guides and templates for new documents;
+  synchronize existing sections and both languages without rewriting history.
 - Keep project preparation separate from committing, pushing, and installing hooks.
   Existing user authorization still applies.
 - Use Python's standard library; support Python 3.9 and later.

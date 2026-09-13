@@ -1,27 +1,33 @@
 # Changelog
 
-<a href="#english">English</a> · <a href="#korean">한국어</a>
+[![English](https://img.shields.io/badge/lang-English-blue)](#english) [![한국어](https://img.shields.io/badge/lang-%ED%95%9C%EA%B5%AD%EC%96%B4-red)](#한국어)
 
-<a id="english"></a>
+---
+
 # English
+
+All notable changes to this project will be documented in this file.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+No Git release tags are present, so version headings have no release or
+comparison links.
 
 ## [Unreleased]
 
 ### Added
 
+- Add structured bilingual README and changelog guides and templates for
+  initialization and synchronization.
+- Add `sync-doc` as an alias for documentation synchronization.
 - Add core/existing document profiles, explicit required document paths,
   conventional layout support, command provenance, and scan coverage details.
-- Add repeatable skill trials for targeted authoring, read-only review, and
-  initialization followed by synchronization.
-- Add shared source/payload validation, reproducible distributions, and
-  installation recovery tests.
+- Add reproducible plugin and standalone skill distributions.
 
 ### Changed
 
 - Focus the skill on the requested documentation operation, preserve repeat-run
   stability, and separate semantic review from structural checks.
-- Split the auditor into filesystem, document, project, and Git components while
-  preserving its CLI and existing JSON fields.
 - Build and install from the same explicit payload and validate complete skill
   resources before delivery.
 
@@ -47,32 +53,38 @@
   whitespace checks, and limited staged secret indicators.
 - Add self-contained plugin/skill packages and personal-marketplace installation.
 
+---
+
 <a id="korean"></a>
 # 한국어
+
+이 프로젝트의 모든 주요 변경 사항은 이 파일에 기록됩니다.
+이 문서는 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)를 기반으로 하며,
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html)을 따릅니다.
+
+Git 릴리스 태그가 없어 버전 헤딩에는 릴리스·비교 링크를 제공하지 않습니다.
 
 ## [Unreleased]
 
 ### Added
 
+- 초기화와 동기화를 위한 구조화된 이중 언어 README·변경 이력 작성 지침과
+  템플릿 추가.
+- 문서 동기화 별칭 `sync-doc` 추가.
 - core/existing 문서 프로필, 필수 문서 경로 지정, 일반적인 대체 문서 구조,
   명령 출처와 검사 범위 정보 추가.
-- 일부 문서 작성, 읽기 전용 검토, 초기화 후 동기화를 확인하는 반복 가능한
-  스킬 시나리오 추가.
-- 공통 소스·배포 대상 검증, 재현 가능한 배포 파일, 설치 복구 테스트 추가.
+- 재현 가능한 플러그인·단독 스킬 배포 파일 추가.
 
 ### Changed
 
 - 요청한 문서 작업에 집중하도록 스킬을 정리하고 반복 실행의 안정성을 유지하며
   내용 검토와 구조 검사를 분리.
-- 기존 CLI와 JSON 필드를 유지하면서 검사 도구를 파일·문서·프로젝트·Git
-  구성 요소로 분리.
 - 동일한 명시적 배포 대상으로 빌드·설치하고 전체 스킬 리소스를 검증한 뒤 전달.
 
 ### Fixed
 
-- 검사 중 프로젝트의 Git clean/process 필터 실행을 막고 Git 검사를 요청한
-  하위 프로젝트 범위로 제한. 이름에 `=`가 있는 필터도 처리하고, 심볼릭 링크나
-  외부 파일을 포함하는 Git 설정을 거부.
+- 이름에 `=`가 있는 필터를 포함한 Git clean/process 필터 실행 차단,
+  요청한 하위 프로젝트 범위 유지, 심볼릭 링크·외부 파일을 포함한 Git 설정 거부.
 - 읽기 실패, 외부·순환 링크, 특수 파일, 큰 파일을 멈춤이나 완전한 검사로
   오인하는 결과 없이 보고.
 - 링크 검사에서 인라인 코드·주석을 제외하고 이스케이프된 대상을 해석하며,

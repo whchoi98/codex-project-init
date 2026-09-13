@@ -1,11 +1,14 @@
 # Document conventions
 
-Use these conventions for new public documents. A user's instructions and the
-target's existing conventions take priority.
+Use these conventions when authoring or synchronizing public documents. Apply
+the user's requested format first, then explicit target instructions, then the
+existing document's structure, then the defaults below.
 
 ## Language and style
 
-The source project uses English first, then Korean, with explicit ASCII anchors:
+New public documents use English first, then Korean. README and CHANGELOG use
+the heading anchors and Shields language badges in their dedicated guides.
+Other documents may retain the project's existing ASCII navigation:
 
 ```html
 <a href="#english">English</a> · <a href="#korean">한국어</a>
@@ -13,42 +16,46 @@ The source project uses English first, then Korean, with explicit ASCII anchors:
 <a id="korean"></a>
 ```
 
-Place the anchors immediately before their respective language headings. Keep
-the same facts, commands, diagrams, and section order in both parts. Translate
-explanatory prose, not file paths or command syntax. Write concise, specific
-English and polite Korean. Avoid decorative emoji and invented passing badges.
-Use language-tagged code fences and links relative to the document.
+Keep the same facts, commands, diagrams, table data, and section order in both
+languages. Translate prose and explanatory comments; keep executable tokens,
+outputs, paths, variable names, and defaults identical. Directory-tree comments
+may be localized while paths and indentation stay the same. Use language-tagged
+fences, relative local links, and blank lines around headings/lists. Use no emoji.
+README Korean uses polite sentences; changelog Korean uses concise noun endings.
+English procedures and new changelog entries start with action verbs.
 
 For existing single-language docs, preserve their layout. Bilingual conversion
 is a separate explicit request; do not hide an existing release history in a
 rewritten template or silently translate historical entries.
 
-## README
+## Select and preserve the structure
 
-Explain purpose and current behavior first. Include the applicable parts of:
+| Target state | Authoring and sync behavior |
+|---|---|
+| Missing README or changelog | Read its dedicated guide and adapt its bilingual template |
+| Existing document using the default structure | Update matching sections in place; keep heading order and language parity |
+| Explicit request to adopt this format | Map existing content into the template; preserve custom sections and historical facts |
+| Existing custom or single-language document | Map the guide's content roles to its existing sections; preserve layout and language |
 
-1. Overview and concrete features.
-2. Prerequisites, installation, and a working usage example.
-3. Architecture: a short Mermaid critical-path diagram and a link to the full doc.
-4. Actual configuration variables, defaults, and CLI options.
-5. Source/document structure and real validation commands.
-6. Contribution workflow and the actual license.
+For a broad initialization, fill applicable gaps without replacing complete
+existing documents. For targeted work, change only the requested document or
+sections. Retain user-owned notes, managed-region boundaries, and custom anchors.
+Update incoming local links if an explicitly requested restructure changes anchors.
+Never copy an example project's identity, status, version, or commands into the
+target. Resolve template variables, remove inapplicable optional sections, and
+remove template-only comments after applying their conditions.
 
-Use version/license information from authoritative project files. Add repository,
-CI, contact, or demo links only when established. Do not require a contact section
-whose contents would have to be guessed.
+## README and CHANGELOG
 
-## CHANGELOG
+- Read [README authoring and sync](readme.md) for its header, ordered sections,
+  conditional content, and evidence rules; adapt `assets/readme.md`.
+- Read [CHANGELOG authoring and sync](changelog.md) for Keep a Changelog,
+  release handling, shared version links, and historical preservation;
+  adapt `assets/changelog.md`.
 
-Keep Unreleased and use dated version entries, newest first. Group related work
-into user-facing changes instead of copying a Git log. New documents may use
-Added, Changed, Deprecated, Removed, Fixed, and Security; keep an existing
-project's headings and style.
-
-For a requested release, move only its Unreleased entries under the version/date.
-Preserve older entries and corresponding evidence. Follow the existing tag
-prefix and version authority. Generate comparison links only for a known remote
-and actual/planned tags; omit imaginary links in a repository without a remote.
+Treat these guides as authoring contracts, not universal auditor requirements.
+The read-only CLI still supports custom layouts and does not enforce translated
+semantics, badges, heading anchors, or release history.
 
 ## Architecture and implementation references
 

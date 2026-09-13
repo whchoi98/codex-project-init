@@ -16,12 +16,17 @@ Read [document conventions](documents.md) for new public documents. Map the role
 below to the project's existing layout before creating files; an equivalent
 document can satisfy a role without being renamed. Treat this as a menu of useful
 project guidance, not a requirement to generate every directory.
+When README or CHANGELOG is in scope, read its [README](readme.md) or
+[CHANGELOG](changelog.md) guide before authoring it. Use `assets/readme.md` and
+`assets/changelog.md` for missing files or an explicitly requested format adoption.
 
 - **AGENTS.md:** purpose, entrypoints, actual development/validation commands,
   non-obvious invariants, and when to update docs/changelog. Keep it concise.
-- **README.md:** purpose, setup, usage, configuration, architecture link, tests,
-  contribution path, and actual license.
-- **CHANGELOG.md:** preserve history; add Unreleased if absent.
+- **README.md:** evidenced badges and bilingual descriptions, then the ordered
+  sections in the README guide, including applicable configuration/tests/API
+  details and truthful license/contact information.
+- **CHANGELOG.md:** Keep a Changelog notices, Unreleased, supplied release
+  history, standard English category names, and evidenced version links.
 - **docs/README.md:** links to real architecture, onboarding, reference, ADR,
   and operational documents.
 - **docs/architecture.md:** real components, data flow, design constraints,
@@ -54,14 +59,30 @@ source folders, or test suites merely to match a diagram.
 
 ## Synchronize an existing repository
 
+`sync`, `sync-doc`, and `sync-docs` select this same workflow.
+
 Inspect changed files and current documents. Update affected descriptions,
 commands, links, versions, diagrams, and indexes; keep custom content and
 historical records. Reconcile both languages when a doc is already bilingual.
 Do not claim freshness only from modification time or a file-count score.
 
-Name the relevant change and the document it affects before editing. Preserve
-managed-region boundaries when present; do not introduce repeated sections on a
-second sync. If the code still agrees with the document, leave it unchanged.
+1. Identify the relevant source change and map it to existing document sections.
+   Read the README/changelog guides for affected files and select the structure
+   using the conventions. A sync is not an implicit format or language migration.
+2. Update README sections in place. Keep the canonical order in documents that
+   use it, preserve custom notes, and reconcile both languages' commands,
+   configuration tables, tree paths, links, and evidenced badges. Add/remove a
+   conditional section only when its applicability actually changes.
+3. Add or correct user-visible changes under each language's Unreleased.
+   Match entries by their meaning so translation changes do not duplicate them.
+   Preserve released blocks, dates, versions, category names, and link targets.
+   Moving entries into a release requires a release request.
+4. Review the diff for lost custom content, language drift, duplicate sections,
+   and historical changes. With no new source evidence, a repeated sync leaves
+   document bytes unchanged.
+
+Preserve managed-region boundaries when present. If a legacy layout already
+expresses the relevant information accurately, leave its headings alone.
 
 Add scoped AGENTS.md only when different instructions are needed for that
 directory. Do not create one in every utility or asset directory.

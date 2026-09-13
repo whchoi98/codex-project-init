@@ -15,6 +15,22 @@ targeted additions stay within the requested scope. `check` inspects and reports
 without writing documents or running project tests. Authoring and commit
 preparation can execute relevant checks.
 
+### README and CHANGELOG
+
+Initialization, targeted authoring, and `sync` / `sync-doc` / `sync-docs` use
+the same dedicated writing guides. New README/changelog files use Shields
+language badges, `# English` and `# 한국어` blocks, and matching content/order.
+The README guide defines required and conditional sections. The changelog guide
+uses Keep a Changelog categories, Unreleased, preserved releases, and shared
+reference links backed by actual or explicitly planned refs.
+
+Sync maps source changes to existing sections, reconciles both languages, and
+deduplicates Unreleased entries by meaning. It preserves custom notes, existing
+single-language layouts, and published history. Format adoption is explicit.
+Unknown CI/license/contact/tag information stays truthful; it is not filled
+with sample metadata. These authoring rules are reviewed through behavior
+trials; the auditor does not impose the templates on every target.
+
 ### Key decisions
 Preserve existing conventions and released history. Treat Git mutations as
 separate requested actions; see the [ADR](../decisions/ADR-001-codex-native-workflows.md).
@@ -24,6 +40,10 @@ Repeated synchronization with no new evidence should leave documents unchanged.
 
 - [Skill entrypoint](../../skills/project-init/SKILL.md)
 - [Document conventions](../../skills/project-init/references/documents.md)
+- [README guide](../../skills/project-init/references/readme.md) and
+  [template](../../skills/project-init/assets/readme.md)
+- [CHANGELOG guide](../../skills/project-init/references/changelog.md) and
+  [template](../../skills/project-init/assets/changelog.md)
 - [Auditor](../../skills/project-init/scripts/project_audit.py)
 ### Cross-references
 
@@ -48,6 +68,22 @@ Repeated synchronization with no new evidence should leave documents unchanged.
 실행하지 않고 조사 결과를 보고합니다. 문서 작성과 커밋 준비에서는 관련 검증을
 실행할 수 있습니다.
 
+### README와 CHANGELOG
+
+초기화, 개별 문서 작성, `sync` / `sync-doc` / `sync-docs`는 같은 전용 작성
+지침을 사용합니다. 새 README·변경 이력은 Shields 언어 배지, `# English`와
+`# 한국어` 블록, 양쪽의 같은 내용·순서를 사용합니다. README 지침은 필수·
+조건부 섹션을 정의하고, 변경 이력 지침은 Keep a Changelog 카테고리,
+Unreleased, 과거 릴리스 보존, 실제 또는 명시적으로 계획된 ref의 공통
+참조 링크를 사용합니다.
+
+동기화는 소스 변경을 기존 섹션에 대응시키고 양 언어를 함께 갱신하며,
+Unreleased 항목을 의미 기준으로 중복 제거합니다. 사용자 메모, 기존 단일
+언어 구조, 공개된 이력을 유지하며 형식 전환은 명시적인 요청에 따릅니다.
+CI·라이선스·연락처·태그 정보가 없으면 예시로 채우지 않고 실제 상태를
+설명합니다. 작성 규칙은 동작 시나리오로 검증하며 검사 도구가 모든 대상에
+이 템플릿을 강제하지는 않습니다.
+
 ### 주요 결정
 기존 규칙과 릴리스 이력을 보존합니다. Git 변경은 별도로 요청받은 작업으로
 처리합니다. [ADR](../decisions/ADR-001-codex-native-workflows.md)을 참고하세요.
@@ -57,6 +93,10 @@ Repeated synchronization with no new evidence should leave documents unchanged.
 
 - [스킬 진입점](../../skills/project-init/SKILL.md)
 - [문서 규칙](../../skills/project-init/references/documents.md)
+- [README 지침](../../skills/project-init/references/readme.md)과
+  [템플릿](../../skills/project-init/assets/readme.md)
+- [CHANGELOG 지침](../../skills/project-init/references/changelog.md)과
+  [템플릿](../../skills/project-init/assets/changelog.md)
 - [검사 도구](../../skills/project-init/scripts/project_audit.py)
 ### 관련 문서
 

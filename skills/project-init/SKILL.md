@@ -19,9 +19,9 @@ README task; missing unrelated documents do not expand it.
 | Request or mode | Workflow |
 |---|---|
 | `init`, `init-project`, broad project preparation | Fill applicable documentation gaps: [initialize](references/initialize.md) |
-| `readme`, `generate-readme` | Update README: [document conventions](references/documents.md) |
-| `changelog`, `generate-changelog` | Update Unreleased or a requested release: [document conventions](references/documents.md) |
-| `sync`, `sync-docs` | Reconcile affected docs with code: [initialize and sync](references/initialize.md) |
+| `readme`, `generate-readme` | Author or update README: [README guide](references/readme.md) |
+| `changelog`, `generate-changelog` | Update Unreleased or a requested release: [CHANGELOG guide](references/changelog.md) |
+| `sync`, `sync-doc`, `sync-docs` | Update affected sections in their established structure: [initialize and sync](references/initialize.md) |
 | `check`, `health-check` | Read-only findings: [check and review](references/check.md) |
 | `prepare-commit`, 커밋·푸시 준비 | Docs, relevant checks, and index review: [Git preparation](references/git-preparation.md) |
 | `add-module`, `add-adr`, `add-runbook`, `add-reference-doc` | One requested addition: [targeted additions](references/additions.md) |
@@ -71,7 +71,11 @@ directories merely to populate a template.
 - Avoid churn: a second sync with no new evidence should not rewrite prose,
   duplicate managed sections, or reorder historical records.
 
-Read [document conventions](references/documents.md) when generating public docs.
+Read [document conventions](references/documents.md) when authoring public docs.
+Initialization and synchronization also load the [README guide](references/readme.md)
+and [CHANGELOG guide](references/changelog.md) for whichever of those files they
+create or update. New README/changelog files use the shared bilingual templates;
+existing custom layouts follow the structure-selection rules in the conventions.
 
 ## Verify the requested result
 

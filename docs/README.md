@@ -8,6 +8,9 @@
 - [Architecture](architecture.md): components and boundaries.
 - [Onboarding](onboarding.md): setup and validation.
 - [Workflow reference](reference/workflows.md): operations and code pointers.
+- [README guide](../skills/project-init/references/readme.md) and
+  [CHANGELOG guide](../skills/project-init/references/changelog.md): bilingual
+  structure, evidence, and synchronization rules.
 - [Auditor contract](reference/auditor.md): profiles, JSON, scope, and limits.
 - [Skill evaluation](reference/skill-evaluation.md): repeatable behavior trials.
 - [Release runbook](runbooks/release.md): validate, package, install.
@@ -19,6 +22,9 @@
 - [아키텍처](architecture.md): 구성 요소와 경계.
 - [온보딩](onboarding.md): 준비 사항과 검증.
 - [작업 참조](reference/workflows.md): 작업과 코드 위치.
+- [README 지침](../skills/project-init/references/readme.md)과
+  [CHANGELOG 지침](../skills/project-init/references/changelog.md): 이중 언어
+  구조, 근거, 동기화 규칙.
 - [검사 도구 계약](reference/auditor.md): 프로필·JSON·범위·한계.
 - [스킬 검증](reference/skill-evaluation.md): 반복 가능한 동작 시나리오.
 - [릴리스 런북](runbooks/release.md): 검증·패키징·설치.

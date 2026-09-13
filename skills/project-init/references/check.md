@@ -62,6 +62,14 @@ Review only dimensions relevant to the request:
 | Codex instructions | Applicable AGENTS.md, actual validation commands, non-obvious invariants |
 | Maintenance | Affected docs/indexes, preserved Unreleased/history, equivalent bilingual facts |
 
+For README/changelog authoring, also review their
+[README](readme.md) and [CHANGELOG](changelog.md) contracts under the selected
+structure. Compare section order, applicable sections, executable examples,
+configuration values, and version/category entries across languages. Check badge
+evidence and link definitions; preserve custom content and released blocks.
+These are semantic reviews, not checks the helper claims to automate. A custom
+layout is not an error merely because it differs from a new-file template.
+
 For each issue, name the document/location, the conflicting or missing source
 evidence, and a concrete correction. Separate a confirmed mismatch from an
 unverified assumption. Avoid a numerical quality score based on file presence,
